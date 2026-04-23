@@ -4,7 +4,7 @@ from .order import Order
 import re
 
 
-DSN_PATTERN = re.compile(r'^(\w+):\/\/\w*:?.*@?.+\/\w+')
+DSN_PATTERN = re.compile(r'^(\w+):(\/\/)?\w*:?.*@?.+(\/)?\w+')
 
 
 class CollectionProtocol(Protocol):
@@ -37,4 +37,4 @@ class PoolProtocol(Protocol):
 
 
 def get_driver_name(dsn: str) -> str:
-    return DSN_PATTERN.findall(dsn)[0].lower()
+    return DSN_PATTERN.findall(dsn)[0][0].lower()

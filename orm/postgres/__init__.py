@@ -3,7 +3,7 @@ from .. import CollectionProtocol, ConnectionProtocol, PoolProtocol
 from ..attributed_dict import AttributedDict
 from ..typemap import typemap as tm
 from ..order import OrderType
-from typing import Any, Coroutine
+from typing import Coroutine, Optional
 from functools import partial
 import asyncpg
 
@@ -167,16 +167,19 @@ class PostgresPool(PoolProtocol):
     
     def on_acquire(self, coroutine: Coroutine[ConnectionProtocol]) -> None:
         self._tasks.append(coroutine)
+    
+    async def close(self):
+        self._pool.close()
 
 
 def Postgres(
-        dsn: Any | None = None,
+        dsn: Optional[str] = None,
         *,
-        host: str | None = None,
-        user: str | None = None,
-        password: str | None = None,
-        database: str | None = None,
-        server_settings: dict | None = None,
+        host: Optional[str] = None,
+        user: Optional[str] = None,
+        password: Optional[str] = None,
+        database: Optional[str] = None,
+        server_settings: Optional[dict] = None,
         autocommit: bool = True) -> PostgresPool:
     return PostgresPool(
         partial(

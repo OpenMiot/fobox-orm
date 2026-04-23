@@ -4,14 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fobox-orm"
-version = "0.0.1"
+version = "0.0.2"
 description = "ORM for Fobox"
 requires-python = ">=3.14"
 authors = [{ name = "Mark Radin", email = "openmiot@gmail.com" }]
 
 [project.optional-dependencies]
 postgres = ["asyncpg"]
-full = ["fobox-orm[postgres]"]
+sqlite = ["aiosqlite"]
+full = ["fobox-orm[postgres]", "fobox-orm[sqlite]"]
 
 [tool.setuptools.packages.find]
 where = ["."]
